@@ -1,93 +1,126 @@
 import 'package:flutter/material.dart';
-import '../routes.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Dashboard"),
-      ),
+    final double totalCredits = 2500;
+    final double todayEarning = 1050;
 
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
+    return Scaffold(
+      appBar: AppBar(title: Text("Dashboard")),
+      body: Container(
+        height: double.infinity,
+        width: double.infinity,
+        margin: EdgeInsets.all(20),
         child: Column(
           children: [
-            // Balance Card
-            Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Colors.indigo.shade50,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Column(
-                children: const [
-                  Text(
-                    "Total Balance",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    "₹ 12,500",
-                    style: TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.indigo,
+            //Total Transactions
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                //Total Credits
+                Card(
+                  child: Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Column(
+                      children: [
+                        Text(
+                          "Total Credits",
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          "Rs. $totalCredits",
+                          style: Theme.of(context).textTheme.titleLarge!
+                              .copyWith(
+                                color: Colors.red,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 25,
+                              ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
+                ),
+                SizedBox(width: 10),
+                //Today's Earning
+                Card(
+                  child: Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Column(
+                      children: [
+                        Text(
+                          "Today's Earning",
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          "Rs. $todayEarning",
+                          style: Theme.of(context).textTheme.titleLarge!
+                              .copyWith(
+                                color: Colors.green,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 25,
+                              ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 30),
+
+            //Transactions History
+            //____Later show last 3-5 transaction in mini container____
+            SizedBox(
+              width: double.infinity,
+              height: 80,
+              child: Card(
+                child: InkWell(
+                  onTap: () {},
+                  child: Center(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.history),
+                        SizedBox(width: 10),
+                        Text(
+                          "Transaction History",
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ),
+            SizedBox(height: 20),
 
-            const SizedBox(height: 30),
-
-            // Buttons Section
-            Row(
-              children: [
-                Expanded(
-                  child: ElevatedButton.icon(
-                    icon: const Icon(Icons.list),
-                    label: const Text("Transactions"),
-                    onPressed: () {
-                      Navigator.pushNamed(context, "/transactions");
-                    },
+            //Reports
+            SizedBox(
+              width: double.infinity,
+              height: 80,
+              child: Card(
+                child: InkWell(
+                  onTap: () {},
+                  child: Center(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.analytics_sharp),
+                        SizedBox(width: 10),
+                        Text(
+                          "Montly Analytics",
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ],
-            ),
-
-            const SizedBox(height: 12),
-
-            Row(
-              children: [
-                Expanded(
-                  child: ElevatedButton.icon(
-                    icon: const Icon(Icons.add),
-                    label: const Text("Add Transaction"),
-                    onPressed: () {
-                      Navigator.pushNamed(context, "/add-transaction");
-                    },
-                  ),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 12),
-
-            Row(
-              children: [
-                Expanded(
-                  child: ElevatedButton.icon(
-                    icon: const Icon(Icons.bar_chart),
-                    label: const Text("Reports"),
-                    onPressed: () {
-                      Navigator.pushNamed(context, "/reports");
-                    },
-                  ),
-                ),
-              ],
+              ),
             ),
           ],
         ),
