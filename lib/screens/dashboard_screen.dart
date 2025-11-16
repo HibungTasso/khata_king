@@ -9,7 +9,6 @@ class DashboardScreen extends StatelessWidget {
     final double todayEarning = 1050;
 
     return Scaffold(
-      appBar: AppBar(title: Text("Dashboard")),
       body: Container(
         height: double.infinity,
         width: double.infinity,

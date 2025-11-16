@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:khata_king/screens/dashboard_screen.dart';
+import 'package:khata_king/navigation.dart';
 
 //------THEME------
 final lightColorScheme = ColorScheme.fromSeed(seedColor: Colors.purpleAccent);
@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(theme: lightTheme, 
     darkTheme: darkTheme,
-    home: DashboardScreen(),
+    home: Navigation(),
     
     );
   }
