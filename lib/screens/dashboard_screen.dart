@@ -12,7 +12,7 @@ class DashboardScreen extends StatelessWidget {
       body: Container(
         height: double.infinity,
         width: double.infinity,
-        margin: EdgeInsets.all(20),
+        margin: EdgeInsets.all(10),
         child: Column(
           children: [
             //Total Transactions
@@ -22,7 +22,7 @@ class DashboardScreen extends StatelessWidget {
                 //Total Credits
                 Card(
                   child: Padding(
-                    padding: EdgeInsets.all(20),
+                    padding: EdgeInsets.all(15),
                     child: Column(
                       children: [
                         Text(
@@ -43,11 +43,11 @@ class DashboardScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(width: 10),
+                SizedBox(width: 5),
                 //Today's Earning
                 Card(
                   child: Padding(
-                    padding: EdgeInsets.all(20),
+                    padding: EdgeInsets.all(15),
                     child: Column(
                       children: [
                         Text(
