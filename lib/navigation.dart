@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:khata_king/screens/analytics_screen.dart';
 import 'package:khata_king/screens/dashboard_screen.dart';
+import 'package:khata_king/screens/add_customer_screen.dart';
 import 'package:khata_king/screens/transaction_history_screen.dart';
 import 'package:khata_king/widgets/side_drawer.dart';
 
@@ -16,7 +17,7 @@ class _NavigationState extends State<Navigation> {
 
   final List<Widget> _activeScreens = const [
     DashboardScreen(),
-    TransactionHistoryScreen(),
+    AddCustomerScreen(),
     AnalyticsScreen(),
   ];
 
@@ -46,7 +47,7 @@ class _NavigationState extends State<Navigation> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.add_box_outlined,),
-            label: "Add Transaction",
+            label: "Add Customer",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.analytics),

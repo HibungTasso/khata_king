@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:khata_king/screens/my_customers_screen.dart';
 
 class SideDrawer extends StatefulWidget {
   const SideDrawer({super.key});
@@ -83,7 +84,9 @@ class _SideDrawerState extends State<SideDrawer> {
                   Icons.people,
                   color: Theme.of(context).colorScheme.onPrimaryContainer,
                 ),
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>MyCustomersScreen()));
+                },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),

@@ -1,5 +1,5 @@
-class Transaction {
-  Transaction({
+class Transactions {
+  Transactions({
     this.id,
     required this.customerId,
     required this.type,
@@ -36,7 +36,7 @@ class Transaction {
   }
 
   //Database Map -> Transaction object
-  factory Transaction.fromMap(Map<String, dynamic> dbMap) {
+  factory Transactions.fromMap(Map<String, dynamic> dbMap) {
     final Map<String, dynamic> newMap = {
       'id': dbMap['id'],
       'customerId': dbMap['customerId'],
@@ -47,7 +47,7 @@ class Transaction {
       'balance': dbMap['balance'],
     };
 
-    return Transaction(
+    return Transactions(
       id: newMap['id'] as int?,
       customerId: newMap['customerId'] as int,
       type: newMap['type'] as String,

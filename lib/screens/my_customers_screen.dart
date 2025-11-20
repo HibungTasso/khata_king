@@ -5,6 +5,12 @@ class MyCustomersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text("[My Customers]"));
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("My Customers"),
+      ),
+
+      body: Center(child: Text("[My Customers LIST]"),),
+    );
   }
 }
