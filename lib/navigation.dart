@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:khata_king/providers/navigation_provider.dart';
 import 'package:khata_king/screens/analytics_screen.dart';
 import 'package:khata_king/screens/dashboard_screen.dart';
 import 'package:khata_king/screens/add_customer_screen.dart';
-import 'package:khata_king/screens/transaction_history_screen.dart';
 import 'package:khata_king/widgets/side_drawer.dart';
 
-class Navigation extends StatefulWidget {
+class Navigation extends ConsumerStatefulWidget {
   const Navigation({super.key});
 
   @override
-  State<Navigation> createState() => _NavigationState();
+  ConsumerState<Navigation> createState() => _NavigationState();
 }
 
-class _NavigationState extends State<Navigation> {
-  int _currentIndex = 0;
+class _NavigationState extends ConsumerState<Navigation> {
 
   final List<Widget> _activeScreens = const [
     DashboardScreen(),
@@ -23,6 +23,8 @@ class _NavigationState extends State<Navigation> {
 
   @override
   Widget build(BuildContext context) {
+    int _currentIndex = ref.read(navigationProvider);
+
     return Scaffold(
       // AppBar (can be dynamic later)
       appBar: AppBar(
@@ -37,7 +39,7 @@ class _NavigationState extends State<Navigation> {
         currentIndex: _currentIndex,
         onTap: (value) {
           setState(() {
-            _currentIndex = value;
+            ref.read(navigationProvider.notifier).state = value;
           });
         },
         items: const [

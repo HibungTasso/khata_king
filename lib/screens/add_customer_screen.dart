@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:khata_king/db/db_helper.dart';
 import 'package:khata_king/models/customers.dart';
+import 'package:khata_king/providers/customer_providers.dart';
+import 'package:khata_king/providers/navigation_provider.dart';
 
-class AddCustomerScreen extends StatefulWidget {
+class AddCustomerScreen extends ConsumerStatefulWidget {
   const AddCustomerScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() {
+  ConsumerState<AddCustomerScreen> createState() {
     return _AddCustomerState();
   }
 }
 
-class _AddCustomerState extends State<AddCustomerScreen> {
+class _AddCustomerState extends ConsumerState<AddCustomerScreen> {
   //getting ready the data for creating new customer object
   String? _name, _phone;
 
@@ -24,19 +27,18 @@ class _AddCustomerState extends State<AddCustomerScreen> {
     if (!_formKey.currentState!.validate()) {
       return;
     }
-
     //Otherwise save all fields
     _formKey.currentState!.save();
 
     //Save Current Date and time
     final today = DateTime.now();
-    final _created_date = "${today.day}/${today.month}/${today.year}";
+    final created_date = "${today.day}/${today.month}/${today.year}";
 
     //New Customer object
     final customer = Customers(
       name: _name!,
       phone: _phone!,
-      created_date: _created_date,
+      created_date: created_date,
       balance: 0,
     );
 
@@ -47,6 +49,13 @@ class _AddCustomerState extends State<AddCustomerScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text("$_name added into Database"))
     );
+
+    //Refresh customerListProvider
+    ref.invalidate(customerListProvider);
+
+    //Pop to Dashboard 
+    ref.read(navigationProvider.notifier).state=0;
+    
   }
 
   @override

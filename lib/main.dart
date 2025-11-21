@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:khata_king/navigation.dart';
 
 //------THEME------
@@ -28,7 +29,7 @@ final darkTheme = ThemeData().copyWith(colorScheme: darkColorScheme,
 );
 
 void main() {
-  runApp(const MyApp());
+  runApp(ProviderScope(child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
