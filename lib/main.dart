@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:khata_king/navigation.dart';
+import 'package:khata_king/screens/splash_screen.dart';
 
 //------THEME------
 final lightColorScheme = ColorScheme.fromSeed(seedColor: Colors.purpleAccent);
@@ -14,13 +14,13 @@ final lightTheme = ThemeData().copyWith(
   colorScheme: lightColorScheme,
   appBarTheme: AppBarTheme(
     backgroundColor: lightColorScheme.onPrimaryContainer,
-    foregroundColor: Colors.white,  // <-- sets icon & text color
+    foregroundColor: Colors.white, // <-- sets icon & text color
   ),
 );
 
-
 //Dark THEME
-final darkTheme = ThemeData().copyWith(colorScheme: darkColorScheme,
+final darkTheme = ThemeData().copyWith(
+  colorScheme: darkColorScheme,
   textTheme: TextTheme().copyWith(
     titleLarge: TextStyle(color: Colors.white),
     titleMedium: TextStyle(color: Colors.white),
@@ -37,10 +37,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(theme: lightTheme, 
-    darkTheme: darkTheme,
-    home: Navigation(),
-    
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      home: SplashScreen(),
     );
   }
 }

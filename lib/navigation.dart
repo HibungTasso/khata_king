@@ -23,7 +23,7 @@ class _NavigationState extends ConsumerState<Navigation> {
 
   @override
   Widget build(BuildContext context) {
-    int _currentIndex = ref.read(navigationProvider);
+    int currentIndex = ref.watch(navigationProvider);
 
     return Scaffold(
       // AppBar (can be dynamic later)
@@ -36,7 +36,7 @@ class _NavigationState extends ConsumerState<Navigation> {
 
       // Bottom Navigation Bar
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
+        currentIndex: currentIndex,
         onTap: (value) {
           setState(() {
             ref.read(navigationProvider.notifier).state = value;
@@ -58,7 +58,7 @@ class _NavigationState extends ConsumerState<Navigation> {
         ],
       ),
 
-      body: _activeScreens[_currentIndex],
+      body: _activeScreens[currentIndex],
     );
   }
 }

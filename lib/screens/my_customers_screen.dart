@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:khata_king/models/customers.dart';
 import 'package:khata_king/widgets/customer_tile.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:khata_king/providers/customer_providers.dart';

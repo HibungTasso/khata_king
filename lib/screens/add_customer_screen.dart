@@ -32,13 +32,13 @@ class _AddCustomerState extends ConsumerState<AddCustomerScreen> {
 
     //Save Current Date and time
     final today = DateTime.now();
-    final created_date = "${today.day}/${today.month}/${today.year}";
+    final createdDate = "${today.day}/${today.month}/${today.year}";
 
     //New Customer object
     final customer = Customers(
       name: _name!,
       phone: _phone!,
-      created_date: created_date,
+      created_date: createdDate,
       balance: 0,
     );
 

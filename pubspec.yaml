@@ -1,5 +1,5 @@
 name: khata_king
-description: "A new Flutter project."
+description: "Finance Management System for Shopkeepers"
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -37,16 +37,12 @@ dependencies:
   sqflite: ^2.4.2
   path: ^1.9.1
   flutter_riverpod: ^3.0.3
+  flutter_native_splash: ^2.4.7
+  flutter_launcher_icons: ^0.14.4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
   flutter_lints: ^5.0.0
 
 # For information on the generic Dart part of this file, see the
@@ -57,6 +53,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/logo.png
+    - assets/images/splash_loading.gif
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
@@ -83,3 +80,16 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+# REPLACE NATIVE SPLASH
+flutter_native_splash:
+  color: "#fcfbed"
+  android: true
+  ios: true
+
+# RENAME APP NAME
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/logo.png"
+  app_name: "Khata King"

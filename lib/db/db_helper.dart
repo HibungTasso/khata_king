@@ -4,12 +4,18 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DbHelper {
+  /*---Making Singleton database---*/
+  /* means database and tables will be created only one time at first time opening the app */
+
   //Make sure the database is opened only once in the whole app
   DbHelper._privateConstructor(); //Prevents outside creation
   static final DbHelper instance =
       DbHelper._privateConstructor(); //instance will be used everywhere (Singleton)
 
   static Database? _database; //holds the database connection
+
+  /*----------------------------- */
+
 
   //Database Getter
   Future<Database> get database async {
