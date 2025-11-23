@@ -84,8 +84,10 @@ flutter:
 # REPLACE NATIVE SPLASH
 flutter_native_splash:
   color: "#fcfbed"
+  image: "assets/images/logo.png"
   android: true
   ios: true
+  fullscreen: true
 
 # RENAME APP NAME
 flutter_launcher_icons:

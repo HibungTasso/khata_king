@@ -1,4 +1,7 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package= "com.example.khata_king">
+    
+    
     <application
         android:label="khata_king"
         android:name="${applicationName}"
