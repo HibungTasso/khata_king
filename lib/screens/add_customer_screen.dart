@@ -61,8 +61,6 @@ class _AddCustomerState extends ConsumerState<AddCustomerScreen> {
     //Refresh customerListProvider
     ref.invalidate(customerListProvider);
 
-    //Pop to Dashboard
-    ref.read(navigationProvider.notifier).state = 0;
   }
 
   @override
@@ -172,7 +170,7 @@ class _AddCustomerState extends ConsumerState<AddCustomerScreen> {
                         },
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
-                          labelText: "Amount [OPTIONAL]",
+                          labelText: "Amount",
                           prefixText: "Rs. ",
                           // hintText: "0",
                           enabledBorder: OutlineInputBorder(
@@ -197,7 +195,7 @@ class _AddCustomerState extends ConsumerState<AddCustomerScreen> {
                       width: 200,
                       child: ToggleCreditDebit(
                         onChange: (value) {
-                          _type = value;
+                          _type = value; //Later - implement in AddTransaction
                         },
                         isAmountNotNull: (double.tryParse(_balanceController.text) ?? 0) != 0,
                       ),
@@ -212,7 +210,13 @@ class _AddCustomerState extends ConsumerState<AddCustomerScreen> {
                   width: double.infinity,
 
                   child: OutlinedButton(
-                    onPressed: _onSave,
+                    onPressed: (){
+                      _onSave();
+
+                      //Pop -> go to MyCustomers
+                      ref.read(navigationProvider.notifier).state = 2;
+                      
+                    },
                     style: OutlinedButton.styleFrom(
                       backgroundColor: Theme.of(context).colorScheme.primary,
                       shape: RoundedRectangleBorder(

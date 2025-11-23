@@ -4,7 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:khata_king/providers/customer_providers.dart';
 
 class MyCustomersScreen extends ConsumerStatefulWidget {
-  const MyCustomersScreen({super.key});
+  const MyCustomersScreen({super.key, required this.isFromDrawer});
+
+  //Check if pushed from Drawer
+  final bool isFromDrawer;
 
   @override
   ConsumerState<MyCustomersScreen> createState() {
@@ -13,23 +16,25 @@ class MyCustomersScreen extends ConsumerStatefulWidget {
 }
 
 class _MyCustomersScreenState extends ConsumerState<MyCustomersScreen> {
-  var customerList = [];
-
-
   @override
   Widget build(BuildContext context) {
     //get Customer List from provider
     final customerList = ref.watch(customerListProvider);
 
     return Scaffold(
-      appBar: AppBar(title: Text("My Customers")),
-
-      //manage three states
       body: Container(
         margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+
+        //manage three states
         child: customerList.when(
           //show Data
           data: (list) {
+            //If List is Empty
+            if (list.isEmpty) {
+              return Center(child: Text("No Customer Added"));
+            }
+
+            //If List has Data
             return ListView.builder(
               itemCount: list.length,
               itemBuilder: (ctx, index) {
@@ -41,13 +46,12 @@ class _MyCustomersScreenState extends ConsumerState<MyCustomersScreen> {
               },
             );
           },
-        
+
           loading: () {
-            Center(child: CircularProgressIndicator(),);
-            return null;
+            Center(child: CircularProgressIndicator());
           },
-        
-          error: (error, stackTrace) => Center(child: Text(error.toString()),),
+
+          error: (error, stackTrace) => Center(child: Text(error.toString())),
         ),
       ),
     );

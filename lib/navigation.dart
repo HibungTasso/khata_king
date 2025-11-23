@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_launcher_icons/main.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:khata_king/providers/navigation_provider.dart';
 import 'package:khata_king/screens/analytics_screen.dart';
 import 'package:khata_king/screens/dashboard_screen.dart';
 import 'package:khata_king/screens/add_customer_screen.dart';
+import 'package:khata_king/screens/my_customers_screen.dart';
 import 'package:khata_king/widgets/side_drawer.dart';
 
 class Navigation extends ConsumerStatefulWidget {
@@ -16,9 +18,9 @@ class Navigation extends ConsumerStatefulWidget {
 class _NavigationState extends ConsumerState<Navigation> {
 
   final List<Widget> _activeScreens = const [
-    DashboardScreen(),
-    AddCustomerScreen(),
-    AnalyticsScreen(),
+    DashboardScreen(),    //index = 0
+    AddCustomerScreen(),  //index = 1
+    MyCustomersScreen(isFromDrawer: false),  //index = 2
   ];
 
   @override
@@ -53,7 +55,7 @@ class _NavigationState extends ConsumerState<Navigation> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.analytics),
-            label: "Analytics",
+            label: "My Customers",
           ),
         ],
       ),

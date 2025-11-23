@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:khata_king/providers/navigation_provider.dart';
 import 'package:khata_king/screens/my_customers_screen.dart';
 
-class SideDrawer extends StatefulWidget {
+class SideDrawer extends ConsumerStatefulWidget {
   const SideDrawer({super.key});
 
   @override
-  State<SideDrawer> createState() {
+  ConsumerState<SideDrawer> createState() {
     return _SideDrawerState();
   }
 }
 
 //Stateful because to set DARK MODE
-class _SideDrawerState extends State<SideDrawer> {
+class _SideDrawerState extends ConsumerState<SideDrawer> {
   bool isDarkMode = false;
 
   @override
@@ -80,13 +82,14 @@ class _SideDrawerState extends State<SideDrawer> {
               //My Customers
               ListTile(
                 title: Text("My Customers"),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  ref.read(navigationProvider.notifier).state=2;
+                },
                 leading: Icon(
                   Icons.people,
                   color: Theme.of(context).colorScheme.onPrimaryContainer,
                 ),
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>MyCustomersScreen()));
-                },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
