@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:khata_king/providers/navigation_provider.dart';
-import 'package:khata_king/screens/my_customers_screen.dart';
+import 'package:khata_king/providers/theme_provider.dart';
 
 class SideDrawer extends ConsumerStatefulWidget {
   const SideDrawer({super.key});
@@ -14,10 +14,11 @@ class SideDrawer extends ConsumerStatefulWidget {
 
 //Stateful because to set DARK MODE
 class _SideDrawerState extends ConsumerState<SideDrawer> {
-  bool isDarkMode = false;
-
   @override
   Widget build(BuildContext context) {
+    //Get themeMode from ThemeProvider
+    bool isDarkMode = ref.watch(themeProvider) == ThemeMode.dark;
+
     final width = MediaQuery.of(context).size.width * 0.8;
 
     return Align(
@@ -84,7 +85,7 @@ class _SideDrawerState extends ConsumerState<SideDrawer> {
                 title: Text("My Customers"),
                 onTap: () {
                   Navigator.of(context).pop();
-                  ref.read(navigationProvider.notifier).state=2;
+                  ref.read(navigationProvider.notifier).state = 2;
                 },
                 leading: Icon(
                   Icons.people,
@@ -155,9 +156,11 @@ class _SideDrawerState extends ConsumerState<SideDrawer> {
                 trailing: Switch(
                   value: isDarkMode,
                   onChanged: (isChecked) {
-                    setState(() {
-                      isDarkMode = isChecked;
-                    });
+                    if (isChecked) {
+                      ref.read(themeProvider.notifier).state = ThemeMode.dark;
+                    } else {
+                      ref.read(themeProvider.notifier).state = ThemeMode.light;
+                    }
                   },
                 ),
                 shape: RoundedRectangleBorder(

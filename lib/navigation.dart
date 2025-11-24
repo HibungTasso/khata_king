@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_launcher_icons/main.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:khata_king/providers/navigation_provider.dart';
 import 'package:khata_king/screens/analytics_screen.dart';
@@ -20,7 +19,7 @@ class _NavigationState extends ConsumerState<Navigation> {
   final List<Widget> _activeScreens = const [
     DashboardScreen(),    //index = 0
     AddCustomerScreen(),  //index = 1
-    MyCustomersScreen(isFromDrawer: false),  //index = 2
+    MyCustomersScreen(),  //index = 2
   ];
 
   @override

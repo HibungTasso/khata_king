@@ -14,6 +14,8 @@ class CustomerTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    //Background Container
     return Container(
       margin: EdgeInsets.symmetric(vertical: 5),
       child: Material(
@@ -33,6 +35,9 @@ class CustomerTile extends StatelessWidget {
           subtitle: Text(phone),
           trailing: Text("Rs. ${balance.toString()}"),
           leading: Icon(Icons.person),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12)
+          ),
         
           //onTap
           onTap: () {},

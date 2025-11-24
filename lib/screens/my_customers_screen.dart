@@ -4,10 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:khata_king/providers/customer_providers.dart';
 
 class MyCustomersScreen extends ConsumerStatefulWidget {
-  const MyCustomersScreen({super.key, required this.isFromDrawer});
-
-  //Check if pushed from Drawer
-  final bool isFromDrawer;
+  const MyCustomersScreen({super.key});
 
   @override
   ConsumerState<MyCustomersScreen> createState() {
@@ -49,6 +46,7 @@ class _MyCustomersScreenState extends ConsumerState<MyCustomersScreen> {
 
           loading: () {
             Center(child: CircularProgressIndicator());
+            return null;
           },
 
           error: (error, stackTrace) => Center(child: Text(error.toString())),
