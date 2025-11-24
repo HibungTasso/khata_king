@@ -59,30 +59,30 @@ class _SideDrawerState extends ConsumerState<SideDrawer> {
               ),
 
               //---Menu Items---
-              //Transaction
+              //Transaction History
               ListTile(
-                title: Text("Transaction History"),
+                onTap: () {},
+                title: Text("Transaction History", style: Theme.of(context).textTheme.titleSmall,),
                 leading: Icon(
                   Icons.history,
                   color: Theme.of(context).colorScheme.onPrimaryContainer,
                 ),
-                onTap: () {},
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(0),
                 ),
                 tileColor: Theme.of(
                   context,
                 ).colorScheme.secondaryContainer.withAlpha(100),
                 contentPadding: EdgeInsets.symmetric(
                   horizontal: 20,
-                  vertical: 8,
+                  vertical: 5,
                 ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 5),
 
               //My Customers
               ListTile(
-                title: Text("My Customers"),
+                title: Text("My Customers", style: Theme.of(context).textTheme.titleSmall),
                 onTap: () {
                   Navigator.of(context).pop();
                   ref.read(navigationProvider.notifier).state = 2;
@@ -92,63 +92,63 @@ class _SideDrawerState extends ConsumerState<SideDrawer> {
                   color: Theme.of(context).colorScheme.onPrimaryContainer,
                 ),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(0),
                 ),
                 tileColor: Theme.of(
                   context,
                 ).colorScheme.secondaryContainer.withAlpha(100),
                 contentPadding: EdgeInsets.symmetric(
                   horizontal: 20,
-                  vertical: 8,
+                  vertical: 5,
                 ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 5),
 
               //Payment reminder
               ListTile(
-                title: Text("Payment Reminder"),
+                title: Text("Payment Reminder",style: Theme.of(context).textTheme.titleSmall),
                 leading: Icon(
                   Icons.payment,
                   color: Theme.of(context).colorScheme.onPrimaryContainer,
                 ),
                 onTap: () {},
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(0),
                 ),
                 tileColor: Theme.of(
                   context,
                 ).colorScheme.secondaryContainer.withAlpha(100),
                 contentPadding: EdgeInsets.symmetric(
                   horizontal: 20,
-                  vertical: 8,
+                  vertical: 5,
                 ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 5),
 
               //Analytics
               ListTile(
-                title: Text("Analytics"),
+                title: Text("Analytics", style: Theme.of(context).textTheme.titleSmall),
                 leading: Icon(
                   Icons.analytics,
                   color: Theme.of(context).colorScheme.onPrimaryContainer,
                 ),
                 onTap: () {},
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(0),
                 ),
                 tileColor: Theme.of(
                   context,
                 ).colorScheme.secondaryContainer.withAlpha(100),
                 contentPadding: EdgeInsets.symmetric(
                   horizontal: 20,
-                  vertical: 8,
+                  vertical: 5,
                 ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 5),
 
               //Dark Mode
               ListTile(
-                title: Text("Dark Mode"),
+                title: Text("Dark Mode", style: Theme.of(context).textTheme.titleSmall),
                 leading: Icon(
                   Icons.dark_mode,
                   color: Theme.of(context).colorScheme.onPrimaryContainer,
@@ -164,14 +164,14 @@ class _SideDrawerState extends ConsumerState<SideDrawer> {
                   },
                 ),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(0),
                 ),
                 tileColor: Theme.of(
                   context,
                 ).colorScheme.secondaryContainer.withAlpha(100),
                 contentPadding: EdgeInsets.symmetric(
                   horizontal: 20,
-                  vertical: 8,
+                  vertical: 5,
                 ),
               ),
               SizedBox(height: 10),

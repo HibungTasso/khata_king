@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:khata_king/db/db_helper.dart';
 import 'package:khata_king/models/customers.dart';
+import 'package:khata_king/models/transactions.dart';
 import 'package:khata_king/providers/customer_providers.dart';
 import 'package:khata_king/providers/navigation_provider.dart';
 import 'package:khata_king/widgets/toggle_credit_debit.dart';
@@ -27,7 +28,7 @@ class _AddCustomerState extends ConsumerState<AddCustomerScreen> {
   final _formKey = GlobalKey<FormState>();
 
   //Save Button
-  void _onSave() {
+  void _onSave() async {
     //Check if form is invalid
     if (!_formKey.currentState!.validate()) {
       return;
@@ -49,17 +50,37 @@ class _AddCustomerState extends ConsumerState<AddCustomerScreen> {
           0, //return the balance || if balance is null then return 0
     );
 
-    //Insert into DB/DB table
-    DbHelper.instance.addCustomer(customer);
+    //Insert New Customer to Customer table
+    final newCustomerId = await DbHelper.instance.addCustomer(customer);
 
+    //Show confirmation snackbar
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(SnackBar(content: Text("$_name added into Database")));
 
     //Refresh customerListProvider
-    ref.invalidate(customerListProvider);
+    if (_formKey.currentState!.validate()) {
+      ref.invalidate(customerListProvider);
+    }
 
+    //Add new Transaction to this New Customer in Transaction Table
+    if(_balance != null && _balance != 0 && _type != null){
+      // 1. balance should not be null or 0
+      // 2. amount type has string 'credit' or 'debit' THEN:
+
+      //Create a new Transaction object
+      final newTransaction = new Transactions(
+        customerId: newCustomerId,  //Foreign Key 
+        type: _type!.toLowerCase(), 
+        amount: _balance!, 
+        note: "", 
+        created_date: createdDate, 
+        balance: _balance!);
+
+      //Store new Transaction object into new Customer's Transaction Table
+      await DbHelper.instance.addTransaction(newTransaction);
+    }
   }
 
   @override
@@ -141,67 +162,74 @@ class _AddCustomerState extends ConsumerState<AddCustomerScreen> {
                 ),
                 SizedBox(height: 10),
 
-                Row(
-                  children: [
-                    //Amount
-                    SizedBox(
-                      width: 150,
-                      child: TextFormField(
-                        controller: _balanceController,
-                        onChanged: (value){
-                          setState(() {
-                            //+++++++++++++++++++++++++++++++
-                          });
-                        },
-                        // initialValue: "0",
-                        onSaved: (newValue) {
-                          //if new value is null return null, if tryParse return null, then return 0 (double)
-                          _balance = double.tryParse(newValue ?? '') ?? 0;
-                        },
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Enter Amount";
-                          }
-                          if (double.tryParse(value) == null) {
-                            return "Only numbers allowed";
-                          }
-                          return null;
-                        },
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          labelText: "Amount",
-                          prefixText: "Rs. ",
-                          // hintText: "0",
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Theme.of(context).colorScheme.primary,
-                              width: 1,
+                //Row with Dynamic Size
+                LayoutBuilder(
+                  builder: (ctx, constraints) {
+                    return Row(
+                      children: [
+
+                        //Amount
+                        SizedBox(
+                          width: (constraints.maxWidth * 0.5)-(constraints.maxWidth * 0.02),
+                          child: TextFormField(
+                            controller: _balanceController,
+                            onChanged: (value) {
+                              setState(() {
+                              });
+                            },
+                            // initialValue: "0",
+                            onSaved: (newValue) {
+                              //if new value is null return null, if tryParse return null, then return 0 (double)
+                              _balance = double.tryParse(newValue ?? '') ?? 0;
+                            },
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Enter Amount";
+                              }
+                              if (double.tryParse(value) == null) {
+                                return "Only numbers allowed";
+                              }
+                              return null;
+                            },
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              labelText: "Amount",
+                              prefixText: "Rs. ",
+                              // hintText: "0",
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  width: 1,
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 2,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
                             ),
                           ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              width: 2,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
+                        ),SizedBox(width: constraints.maxWidth*0.04,),
+
+                        //Amount Type
+                        SizedBox(
+                          width: (constraints.maxWidth * 0.5)-(constraints.maxWidth * 0.02),
+                          child: ToggleCreditDebit(
+                            onChange: (value) {
+                              _type =
+                                  value; //Later - implement in AddTransaction
+                            },
+                            isAmountNotNull:
+                                (double.tryParse(_balanceController.text) ??
+                                    0) !=
+                                0,
                           ),
                         ),
-                      ),
-                    ),
-                    Spacer(),
-
-                    //Amount Type
-                    SizedBox(
-                      width: 200,
-                      child: ToggleCreditDebit(
-                        onChange: (value) {
-                          _type = value; //Later - implement in AddTransaction
-                        },
-                        isAmountNotNull: (double.tryParse(_balanceController.text) ?? 0) != 0,
-                      ),
-                    ),
-                  ],
+                      ],
+                    );
+                  },
                 ),
-
                 SizedBox(height: 10),
 
                 //Save Button
@@ -209,12 +237,11 @@ class _AddCustomerState extends ConsumerState<AddCustomerScreen> {
                   width: double.infinity,
 
                   child: OutlinedButton(
-                    onPressed: (){
+                    onPressed: () {
                       _onSave();
 
                       //Pop -> go to MyCustomers
                       ref.read(navigationProvider.notifier).state = 2;
-                      
                     },
                     style: OutlinedButton.styleFrom(
                       backgroundColor: Theme.of(context).colorScheme.primary,

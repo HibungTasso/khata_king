@@ -117,7 +117,7 @@ class _ToggleCreditDebitState extends State<ToggleCreditDebit> {
 
                   //Slider UI
                   child: Container(
-                    width: constraints.maxWidth / 2, //Dynamic UI Slider
+                    width: constraints.maxWidth / 2, //Dynamic UI Slider 50%
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10),

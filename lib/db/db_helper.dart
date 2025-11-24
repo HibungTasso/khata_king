@@ -72,7 +72,7 @@ class DbHelper {
     ''');
   }
 
-  /*---CRUD operations (CUSTORMER)---*/
+  /*----CRUD operations (CUSTORMER)----*/
   //Insert customer
   Future<int> addCustomer(Customers customer) async {
     final db = await database;
@@ -116,6 +116,7 @@ class DbHelper {
     return await db.delete('customers', where: 'id = ?', whereArgs: [id]);
   }
 
+  /*----CRUD operations (TRANSACTION)----*/
   //Get Transaction
   Future<Transactions?> getTransactionById(int id) async {
     final db = await database;

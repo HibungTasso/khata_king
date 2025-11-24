@@ -78,6 +78,10 @@ class DashboardScreen extends StatelessWidget {
               width: double.infinity,
               height: 80,
               child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)
+                ),
+                clipBehavior: Clip.hardEdge,
                 child: InkWell(
                   onTap: () {},
                   child: Center(
@@ -98,11 +102,16 @@ class DashboardScreen extends StatelessWidget {
             ),
             SizedBox(height: 20),
 
-            //Reports
+            //Monthly Analitics
             SizedBox(
               width: double.infinity,
               height: 80,
               child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)
+                ),
+                clipBehavior: Clip.hardEdge,
+
                 child: InkWell(
                   onTap: () {},
                   child: Center(

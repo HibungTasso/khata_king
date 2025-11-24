@@ -23,14 +23,14 @@ class Transactions {
 
     if (id != null) {
       //means update
-      newMap['id'] = id;
+      newMap['id'] = this.id;
     }
-    newMap['customerId'] = customerId;
-    newMap['type'] = type;
-    newMap['amount'] = amount;
-    newMap['note'] = note;
-    newMap['created_date'] = created_date;
-    newMap['balance'] = balance;
+    newMap['customerId'] = this.customerId;
+    newMap['type'] = this.type;
+    newMap['amount'] = this.amount;
+    newMap['note'] = this.note;
+    newMap['created_date'] = this.created_date;
+    newMap['balance'] = this.balance;
 
     return newMap;
   }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:khata_king/providers/navigation_provider.dart';
-import 'package:khata_king/screens/analytics_screen.dart';
 import 'package:khata_king/screens/dashboard_screen.dart';
 import 'package:khata_king/screens/add_customer_screen.dart';
 import 'package:khata_king/screens/my_customers_screen.dart';
@@ -49,11 +48,11 @@ class _NavigationState extends ConsumerState<Navigation> {
             label: "Dashboard",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.add_box_outlined,),
+            icon: Icon(Icons.add_box,),
             label: "Add Customer",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.analytics),
+            icon: Icon(Icons.group_sharp),
             label: "My Customers",
           ),
         ],
