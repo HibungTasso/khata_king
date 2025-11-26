@@ -5,12 +5,14 @@ class Customers {
     required this.phone,
     required this.created_date,
     required this.balance,
+    required this.time
   });
 
   int? id;
   String name;
   String phone;
   String created_date;
+  String time;
   double balance;
 
   //Customer Object -> Database Map
@@ -27,6 +29,7 @@ class Customers {
     newMap['name'] = name;
     newMap['phone'] = phone;
     newMap['created_date'] = created_date;
+    newMap['time'] = time;
     newMap['balance'] = balance;
 
     return newMap;
@@ -40,6 +43,7 @@ class Customers {
       'name': dbMap['name'],
       'phone': dbMap['phone'],
       'created_date': dbMap['created_date'],
+      'time': dbMap['time'],
       'balance': dbMap['balance']
     };
 
@@ -48,6 +52,7 @@ class Customers {
       name: newMap['name'] as String,
       phone: newMap['phone'] as String,
       created_date: newMap['created_date'] as String,
+      time: newMap['time'],
       balance: (newMap['balance'] as num).toDouble(),
     );
   }

@@ -3,7 +3,7 @@
     
     
     <application
-        android:label="khata_king"
+        android:label="Khata King"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

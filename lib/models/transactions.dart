@@ -6,6 +6,7 @@ class Transactions {
     required this.amount,
     required this.note,
     required this.created_date,
+    required this.time,
     required this.balance,
   });
 
@@ -15,6 +16,7 @@ class Transactions {
   double amount;
   String? note;
   String created_date;
+  String time;
   double balance;
 
   //Transaction object -> Database Map (insert/update)
@@ -30,6 +32,7 @@ class Transactions {
     newMap['amount'] = this.amount;
     newMap['note'] = this.note;
     newMap['created_date'] = this.created_date;
+    newMap['time'] = this.time;
     newMap['balance'] = this.balance;
 
     return newMap;
@@ -44,6 +47,7 @@ class Transactions {
       'amount': dbMap['amount'],
       'note': dbMap['note'],
       'created_date': dbMap['created_date'],
+      'time': dbMap['time'],
       'balance': dbMap['balance'],
     };
 
@@ -54,6 +58,7 @@ class Transactions {
       amount: (newMap['amount'] as num).toDouble(),
       note: newMap['note'] as String?,
       created_date: newMap['created_date'] as String,
+      time: newMap['time'],
       balance: (newMap['balance'] as num).toDouble(),
     );
   }

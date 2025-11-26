@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class TransactionHistoryScreen extends StatelessWidget{
-  const TransactionHistoryScreen({super.key});
+class AllTransactionHistoryScreen extends StatelessWidget{
+  const AllTransactionHistoryScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

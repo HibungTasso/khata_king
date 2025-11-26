@@ -36,6 +36,7 @@ class _MyCustomersScreenState extends ConsumerState<MyCustomersScreen> {
               itemCount: list.length,
               itemBuilder: (ctx, index) {
                 return CustomerTile(
+                  customer: list[index],
                   name: list[index].name,
                   balance: list[index].balance,
                   phone: list[index].phone,
@@ -44,10 +45,7 @@ class _MyCustomersScreenState extends ConsumerState<MyCustomersScreen> {
             );
           },
 
-          loading: () {
-            Center(child: CircularProgressIndicator());
-            return null;
-          },
+          loading: () => Center(child: CircularProgressIndicator()),
 
           error: (error, stackTrace) => Center(child: Text(error.toString())),
         ),

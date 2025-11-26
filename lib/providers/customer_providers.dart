@@ -8,7 +8,7 @@ final dbHelperProvider = Provider<DbHelper>((ref){
   return DbHelper.instance; //use this Singleton DBHelper instance throughtout the app
 });
 
-//Customer List Provider
+//All Customer List Provider
 final customerListProvider = FutureProvider<List<Customers>>((ref) async{
   //Access DBHelper instance (one time only)
   final db = ref.read(dbHelperProvider);
@@ -16,3 +16,12 @@ final customerListProvider = FutureProvider<List<Customers>>((ref) async{
   //call getCustomers() form DBHelper 
   return db.getCustomers();
 });
+
+//Customer with Id Provider
+final customerByIdProvider = FutureProvider.family<Customers?, int>(  //It takes 1 int parameter
+  (ref, customerId){  //taking 1 extra parameter for customerId
+    final db = ref.read(dbHelperProvider);
+    
+    return db.getCustomerById(customerId);
+  }
+);

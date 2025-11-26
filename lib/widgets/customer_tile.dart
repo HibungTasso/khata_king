@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:khata_king/models/customers.dart';
+import 'package:khata_king/screens/customer_details_screen.dart';
 
 class CustomerTile extends StatelessWidget {
   const CustomerTile({
@@ -6,11 +8,13 @@ class CustomerTile extends StatelessWidget {
     required this.name,
     required this.balance,
     required this.phone,
+    required this.customer
   });
 
   final String name;
   final double balance;
   final String phone;
+  final Customers customer;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +44,11 @@ class CustomerTile extends StatelessWidget {
           ),
         
           //onTap
-          onTap: () {},
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(builder: (ctx){
+              return CustomerDetailsScreen(customer: customer,);
+            }));
+          },
 
           //onLongPress (DELETE option)
           onLongPress: (){},

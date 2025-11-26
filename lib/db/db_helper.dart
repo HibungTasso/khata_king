@@ -42,6 +42,9 @@ class DbHelper {
       path,
       version: 1,
       onCreate: _createTables, //call create Table Function
+      
+      //adding time variable in version 2
+
     );
   }
 
@@ -53,6 +56,7 @@ class DbHelper {
         name TEXT NOT NULL,
         phone TEXT NOT NULL,
         created_date TEXT NOT NULL,
+        time TEXT NOT NULL,
         balance REAL NOT NULL
       );
     ''');
@@ -65,6 +69,7 @@ class DbHelper {
         amount REAL NOT NULL,
         note TEXT,
         created_date TEXT NOT NULL,
+        time TEXT NOT NULL,
         balance REAL NOT NULL,
         FOREIGN KEY (customerId) REFERENCES customers (id)
       );
@@ -92,6 +97,24 @@ class DbHelper {
     }).toList();
 
     return customers;
+  }
+
+  //Read single customer by id
+  Future<Customers?> getCustomerById(int customerId) async{
+    final db = await database;
+
+    //find and store customer in a rows
+    final rows = await db.query(
+      'customers',
+      where: 'id = ?',
+      whereArgs: [customerId]
+    );
+
+    //if no customer with that id Found
+    if(rows.isEmpty) return null;
+
+    //else
+    return Customers.fromMap(rows.first);
   }
 
   //Update Customer

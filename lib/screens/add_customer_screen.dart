@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:khata_king/db/db_helper.dart';
 import 'package:khata_king/models/customers.dart';
 import 'package:khata_king/models/transactions.dart';
+import 'package:intl/intl.dart';
 import 'package:khata_king/providers/customer_providers.dart';
 import 'package:khata_king/providers/navigation_provider.dart';
 import 'package:khata_king/widgets/toggle_credit_debit.dart';
@@ -39,12 +40,13 @@ class _AddCustomerState extends ConsumerState<AddCustomerScreen> {
     //Save Current Date and time
     final today = DateTime.now();
     final createdDate = "${today.day}/${today.month}/${today.year}";
+    final time = DateFormat('hh:mm a').format(today);
 
-    //New Customer object
     final customer = Customers(
       name: _name!,
       phone: _phone!,
       created_date: createdDate,
+      time: time,
       balance:
           _balance ??
           0, //return the balance || if balance is null then return 0
@@ -59,7 +61,7 @@ class _AddCustomerState extends ConsumerState<AddCustomerScreen> {
       context,
     ).showSnackBar(SnackBar(content: Text("$_name added into Database")));
 
-    //Refresh customerListProvider
+    //Refresh customerListProvider (Go to -> MyCustomersScreen)
     if (_formKey.currentState!.validate()) {
       ref.invalidate(customerListProvider);
     }
@@ -76,6 +78,7 @@ class _AddCustomerState extends ConsumerState<AddCustomerScreen> {
         amount: _balance!, 
         note: "", 
         created_date: createdDate, 
+        time: time,
         balance: _balance!);
 
       //Store new Transaction object into new Customer's Transaction Table
