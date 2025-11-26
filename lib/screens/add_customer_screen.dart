@@ -30,17 +30,19 @@ class _AddCustomerState extends ConsumerState<AddCustomerScreen> {
 
   //Save Button
   void _onSave() async {
+  
     //Check if form is invalid
     if (!_formKey.currentState!.validate()) {
       return;
     }
-    //Otherwise save all fields
+    // //Otherwise save all fields
     _formKey.currentState!.save();
 
-    //Save Current Date and time
+    // //Save Current Date and time
     final today = DateTime.now();
     final createdDate = "${today.day}/${today.month}/${today.year}";
     final time = DateFormat('hh:mm a').format(today);
+
 
     final customer = Customers(
       name: _name!,
@@ -52,31 +54,24 @@ class _AddCustomerState extends ConsumerState<AddCustomerScreen> {
           0, //return the balance || if balance is null then return 0
     );
 
-    //Insert New Customer to Customer table
+    // //Insert New Customer to Customer table
     final newCustomerId = await DbHelper.instance.addCustomer(customer);
 
-    //Show confirmation snackbar
-    ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text("$_name added into Database")));
+    // //Refresh customerListProvider (Go to -> MyCustomersScreen)
+    ref.invalidate(customerListProvider);
 
-    //Refresh customerListProvider (Go to -> MyCustomersScreen)
-    if (_formKey.currentState!.validate()) {
-      ref.invalidate(customerListProvider);
-    }
 
-    //Add new Transaction to this New Customer in Transaction Table
+    // //Add new Transaction to this New Customer in Transaction Table
     if(_balance != null && _balance != 0 && _type != null){
-      // 1. balance should not be null or 0
-      // 2. amount type has string 'credit' or 'debit' THEN:
+    //   // 1. balance should not be null or 0
+    //   // 2. amount type has string 'credit' or 'debit' THEN:
 
-      //Create a new Transaction object
+    //   //Create a new Transaction object
       final newTransaction = new Transactions(
         customerId: newCustomerId,  //Foreign Key 
         type: _type!.toLowerCase(), 
         amount: _balance!, 
-        note: "", 
+        note: "This is a test", 
         created_date: createdDate, 
         time: time,
         balance: _balance!);
@@ -84,6 +79,18 @@ class _AddCustomerState extends ConsumerState<AddCustomerScreen> {
       //Store new Transaction object into new Customer's Transaction Table
       await DbHelper.instance.addTransaction(newTransaction);
     }
+
+    //Refresh Customer List in UI
+    ref.invalidate(customerListProvider);
+
+    //Show SnackBar 
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text("$_name added into Database")));
+
+    //Navigate to MyCustomers Screen
+    ref.read(navigationProvider.notifier).state = 2;
   }
 
   @override
@@ -240,12 +247,7 @@ class _AddCustomerState extends ConsumerState<AddCustomerScreen> {
                   width: double.infinity,
 
                   child: OutlinedButton(
-                    onPressed: () {
-                      _onSave();
-
-                      //Pop -> go to MyCustomers
-                      ref.read(navigationProvider.notifier).state = 2;
-                    },
+                    onPressed: _onSave,
                     style: OutlinedButton.styleFrom(
                       backgroundColor: Theme.of(context).colorScheme.primary,
                       shape: RoundedRectangleBorder(

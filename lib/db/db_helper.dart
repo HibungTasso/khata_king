@@ -42,9 +42,6 @@ class DbHelper {
       path,
       version: 1,
       onCreate: _createTables, //call create Table Function
-      
-      //adding time variable in version 2
-
     );
   }
 

@@ -26,11 +26,11 @@ class Customers {
       newMap['id'] = id;
     }
 
-    newMap['name'] = name;
-    newMap['phone'] = phone;
-    newMap['created_date'] = created_date;
-    newMap['time'] = time;
-    newMap['balance'] = balance;
+    newMap['name'] = this.name;
+    newMap['phone'] = this.phone;
+    newMap['created_date'] = this.created_date;
+    newMap['time'] = this.time;
+    newMap['balance'] = this.balance;
 
     return newMap;
   }
