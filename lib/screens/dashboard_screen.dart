@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:khata_king/screens/all_transaction_history_screen.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -83,7 +84,9 @@ class DashboardScreen extends StatelessWidget {
                 ),
                 clipBehavior: Clip.hardEdge,
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>AllTransactionHistoryScreen()));
+                  },
                   child: Center(
                     child: Row(
                       mainAxisSize: MainAxisSize.min,

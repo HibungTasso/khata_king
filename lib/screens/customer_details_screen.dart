@@ -230,7 +230,7 @@ class _CustomerDetailsScreenState extends ConsumerState<CustomerDetailsScreen> {
                     ),
                   ),
 
-                  //List of Transactions /* +++ MAKE LIST ++++ */
+                  //List item of Transactions /* +++ MAKE LIST ++++ */
                   CustomerTransactionsHistory(customer: currentCustomer)
                 ],
               ),

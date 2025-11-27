@@ -10,6 +10,7 @@ class CustomerTransactionsHistory extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
     return Container(
       margin: EdgeInsets.all(5),
       color: const Color.fromARGB(255, 225, 225, 225),
@@ -17,6 +18,7 @@ class CustomerTransactionsHistory extends ConsumerWidget {
         padding: EdgeInsets.all(5),
         child: Row(
           children: [
+
             //Date and note
             Expanded(
               flex: 3,
@@ -28,17 +30,18 @@ class CustomerTransactionsHistory extends ConsumerWidget {
 
                     //Date and Time
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                      textBaseline: TextBaseline.alphabetic,
                       children: [
-                        Text("[20/02/2025]"),
-                        Text("02:30 PM", style: TextStyle(fontSize: 10),)
+                        Text("${customer.created_date}"),SizedBox(width: 2,),
+                        Text("${customer.time}", style: TextStyle(fontSize: 8),)
                       ],
                     ),
 
                     //Note
                     SizedBox(
                       width: 130,
-                      child: Text(
-                        "This is the Note of the given as the Fire tasso",
+                      child: Text("Test note",
                         style: TextStyle(fontSize: 8),
                       ),
                     ),

@@ -90,6 +90,8 @@ class _ToggleCreditDebitState extends State<ToggleCreditDebit> {
   @override
   Widget build(BuildContext context) {
 
+    widget.onChange('credit');
+
     //Background
     return Opacity(
       opacity: widget.isAmountNotNull ? 1 : 0.4,

@@ -1,3 +1,4 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:khata_king/models/customers.dart';
 import 'package:khata_king/models/transactions.dart';
 import 'package:path/path.dart';
@@ -87,7 +88,7 @@ class DbHelper {
   Future<List<Customers>> getCustomers() async {
     final Database db = await database;
 
-    final List<Map<String, dynamic>> results = await db.query('customers');
+    final List<Map<String, dynamic>> results = await db.query('customers', orderBy: 'id DESC');
 
     final List<Customers> customers = results.map((item) {
       return Customers.fromMap(item);
@@ -137,7 +138,20 @@ class DbHelper {
   }
 
   /*----CRUD operations (TRANSACTION)----*/
-  //Get Transaction
+  //Get All Transactions
+  Future<List<Transactions>> getTransactions() async{
+    final db = await database;
+    final List<Map<String, dynamic>> results = await db.query("transactions", orderBy: 'id DESC');
+
+    //Convert to List of Transactions Object
+    final List<Transactions> transactions = results.map((item){
+      return Transactions.fromMap(item);
+    }).toList();
+
+    return transactions;
+  }
+
+  //Get Transaction by Id
   Future<Transactions?> getTransactionById(int id) async {
     final db = await database;
     final rows = await db.query(
