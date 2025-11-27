@@ -130,11 +130,16 @@ class DbHelper {
     );
   }
 
-  //Delete Customer
+  //Delete Customer by Id
   Future<int> deleteCustomer(int id) async {
     final db = await database;
 
     return await db.delete('customers', where: 'id = ?', whereArgs: [id]);
+  }
+
+  Future<void> deleteAllCustomers() async{
+    final db = await database;
+    await db.delete('customers');
   }
 
   /*----CRUD operations (TRANSACTION)----*/
@@ -211,8 +216,8 @@ class DbHelper {
     });
   }
 
-  //Delete Transaction
-  Future<int> deleteTransaction(int transactionId) async {
+  //Delete Transaction by Id
+  Future<int> deleteTransactionById(int transactionId) async {
     final db = await database;
 
     return await db.transaction<int>((txnDb) async {
@@ -270,6 +275,12 @@ class DbHelper {
 
       return deletedCount; // number of rows deleted
     });
+  }
+
+  //Delete all transactions
+  Future<void> deleteAllTransactions() async{
+    final db = await database;
+    await db.delete("transactions");
   }
 
   //Update Transaction

@@ -15,8 +15,11 @@ class AllTransactionHistoryWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if(customer == null){
-      return Center(child: Text("No transactions"),);
+    //Check if transaction is credit or debit [credit = RED]
+    final isCredit = (transaction.type == 'credit');
+
+    if (customer == null) {
+      return Center(child: Text("No transactions"));
     }
 
     //Active Widget (if there are transactions)
@@ -25,11 +28,15 @@ class AllTransactionHistoryWidget extends ConsumerWidget {
       child: ListTile(
         title: Text("${customer!.name}"),
         leading: Icon(Icons.person),
-        trailing: Text("${transaction.amount}"),
+        trailing: Text(
+          "${isCredit ? "-" : "+"} Rs. ${transaction.amount}",
+          style: TextStyle(color: isCredit ? Colors.red : Colors.green, fontSize: 15),
+        ),
         contentPadding: EdgeInsets.symmetric(horizontal: 10),
-        tileColor: const Color.fromARGB(255, 234, 234, 234),
+        tileColor: isCredit
+            ? const Color.fromARGB(255, 243, 223, 223)
+            : const Color.fromARGB(255, 207, 239, 224),
       ),
     );
-
   }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:khata_king/models/customers.dart';
 import 'package:khata_king/providers/customer_providers.dart';
 import 'package:khata_king/providers/transaction_provider.dart';
 import 'package:khata_king/widgets/all_transaction_history_widget.dart';
@@ -18,6 +17,11 @@ class AllTransactionHistoryScreen extends ConsumerWidget {
         margin: EdgeInsets.all(10),
         child: allTransactionList.when(
           data: (allTransactionList){
+            //If allTransactionList is Empty
+            if(allTransactionList.isEmpty){
+              return Center(child: Text("No Transactions"),);
+            }
+
             return ListView.builder(
               itemCount: allTransactionList.length,
               itemBuilder: (ctx, index){
@@ -32,7 +36,6 @@ class AllTransactionHistoryScreen extends ConsumerWidget {
                   loading: () => Center(child: CircularProgressIndicator(),),
                   error: (error, stackTrace) => Center(child: Text("Error in getCustomeByIdProvider"),),
                 );
-                print("++++++${allTransactionList[index].customerId}++++");
 
               },
             );

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:khata_king/providers/navigation_provider.dart';
 import 'package:khata_king/providers/theme_provider.dart';
+import 'package:khata_king/screens/all_transaction_history_screen.dart';
+import 'package:khata_king/screens/payment_reminder_screen.dart';
 
 class SideDrawer extends ConsumerStatefulWidget {
   const SideDrawer({super.key});
@@ -61,7 +63,9 @@ class _SideDrawerState extends ConsumerState<SideDrawer> {
               //---Menu Items---
               //Transaction History
               ListTile(
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>AllTransactionHistoryScreen()));
+                },
                 title: Text("Transaction History", style: Theme.of(context).textTheme.titleSmall,),
                 leading: Icon(
                   Icons.history,
@@ -111,7 +115,9 @@ class _SideDrawerState extends ConsumerState<SideDrawer> {
                   Icons.payment,
                   color: Theme.of(context).colorScheme.onPrimaryContainer,
                 ),
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>PaymentReminderScreen()));
+                },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(0),
                 ),

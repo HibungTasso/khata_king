@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:khata_king/providers/customer_providers.dart';
+import 'package:khata_king/providers/transaction_provider.dart';
 import 'package:khata_king/screens/all_transaction_history_screen.dart';
 
-class DashboardScreen extends StatelessWidget {
+class DashboardScreen extends ConsumerWidget {
   const DashboardScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final double totalCredits = 2500;
-    final double todayEarning = 1050;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final double totalCredits = ref.watch(totalCreditsProvider);
+    final double todayEarning = ref.watch(totalDebitsProvider);
 
     return Scaffold(
       body: Container(
@@ -37,7 +40,7 @@ class DashboardScreen extends StatelessWidget {
                               .copyWith(
                                 color: Colors.red,
                                 fontWeight: FontWeight.w600,
-                                fontSize: 25,
+                                fontSize: 22,
                               ),
                         ),
                       ],
@@ -62,7 +65,7 @@ class DashboardScreen extends StatelessWidget {
                               .copyWith(
                                 color: Colors.green,
                                 fontWeight: FontWeight.w600,
-                                fontSize: 25,
+                                fontSize: 22,
                               ),
                         ),
                       ],
@@ -80,12 +83,16 @@ class DashboardScreen extends StatelessWidget {
               height: 80,
               child: Card(
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 clipBehavior: Clip.hardEdge,
                 child: InkWell(
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>AllTransactionHistoryScreen()));
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (ctx) => AllTransactionHistoryScreen(),
+                      ),
+                    );
                   },
                   child: Center(
                     child: Row(
@@ -111,7 +118,7 @@ class DashboardScreen extends StatelessWidget {
               height: 80,
               child: Card(
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 clipBehavior: Clip.hardEdge,
 
@@ -132,6 +139,49 @@ class DashboardScreen extends StatelessWidget {
                   ),
                 ),
               ),
+            ),
+            SizedBox(height: 20),
+
+            //Delete data Button
+            OutlinedButton(
+              onPressed: () async {
+                final shouldDelete = await showDialog<bool>(
+                  context: context,
+                  builder: (ctx) {
+                    return AlertDialog(
+                      title: Text("Confirm Delete"),
+                      content: Text(
+                        "Are you sure you want to delete ALL data?",
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(ctx, false),
+                          child: Text("Cancel"),
+                        ),
+                        TextButton(
+                          onPressed: () => Navigator.pop(ctx, true),
+                          child: Text("Delete"),
+                        ),
+                      ],
+                    );
+                  },
+                );
+
+                if (shouldDelete == true) {
+                  ref.read(deleteAllCustomersProvider);
+                  ref.read(deleteAllTransactionsProvider);
+
+                  //Refresh Customer Transaction lists
+                  ref.invalidate(customerListProvider);
+                  ref.invalidate(transactionListProvider);
+
+                  ScaffoldMessenger.of(context).clearSnackBars();
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text("All Data Deleted")));
+                }
+              },
+              child: Text("Delete all Transactions and Customers"),
             ),
           ],
         ),
