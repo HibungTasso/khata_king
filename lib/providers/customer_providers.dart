@@ -27,10 +27,10 @@ final getCustomerByIdProvider = FutureProvider.family<Customers?, int>(  //It ta
   }
 );
 
-
 //Delete all customers
 final deleteAllCustomersProvider = FutureProvider<void>((ref){
   final db = ref.read(dbHelperProvider);
   db.deleteAllCustomers();
 });
+
 

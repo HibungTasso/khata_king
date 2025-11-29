@@ -4,7 +4,7 @@ class Transactions {
     required this.customerId,
     required this.type,
     required this.amount,
-    required this.note,
+    this.note = '-Notes not provided-',
     required this.created_date,
     required this.time,
     required this.balance,
@@ -14,7 +14,7 @@ class Transactions {
   int customerId;
   String type;
   double amount;
-  String? note;
+  String note;
   String created_date;
   String time;
   double balance;
@@ -56,7 +56,7 @@ class Transactions {
       customerId: newMap['customerId'] as int,
       type: newMap['type'] as String,
       amount: (newMap['amount'] as num).toDouble(),
-      note: newMap['note'] as String?,
+      note: newMap['note'] as String,
       created_date: newMap['created_date'] as String,
       time: newMap['time'],
       balance: (newMap['balance'] as num).toDouble(),

@@ -131,7 +131,7 @@ class DbHelper {
   }
 
   //Delete Customer by Id
-  Future<int> deleteCustomer(int id) async {
+  Future<int> deleteCustomerById(int id) async {
     final db = await database;
 
     return await db.delete('customers', where: 'id = ?', whereArgs: [id]);
@@ -169,6 +169,23 @@ class DbHelper {
 
     //otherwise
     return Transactions.fromMap(rows.first);
+  }
+
+  //Get Transactions by customer id
+  Future<List<Transactions>> getTransactionByCustomerId(int id) async{
+    final db = await database;
+
+    final rows = await db.query(
+      'transactions',
+      where: 'customerId = ?',
+      whereArgs: [id]
+    );
+
+    final result = rows.map((item){
+      return Transactions.fromMap(item);
+    }).toList();
+
+    return result;
   }
 
   //Add Transaction
@@ -216,7 +233,7 @@ class DbHelper {
     });
   }
 
-  //Delete Transaction by Id
+  //Delete Transaction by transaction Id
   Future<int> deleteTransactionById(int transactionId) async {
     final db = await database;
 
@@ -275,6 +292,16 @@ class DbHelper {
 
       return deletedCount; // number of rows deleted
     });
+  }
+
+  //Delete all Transactions by Customer Id
+  Future<int> deleteAllTransactionsByCustomerId(int customerId) async{
+    final db = await database;
+    return await db.delete(
+      'transactions',
+      where: 'customerId = ?',
+      whereArgs: [customerId]
+    );
   }
 
   //Delete all transactions

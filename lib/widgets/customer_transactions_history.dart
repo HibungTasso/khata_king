@@ -1,25 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:khata_king/models/customers.dart';
 
-class CustomerTransactionsHistory extends ConsumerWidget {
-  const CustomerTransactionsHistory({super.key, required this.customer});
+class CustomerTransactionsHistory extends StatelessWidget {
+  const CustomerTransactionsHistory({
+    super.key,
+    required this.date,
+    required this.time,
+    required this.note,
+    required this.amount,
+    required this.type,
+  });
 
-  final Customers customer;
+  final String date;
+  final String time;
+  final String note;
+  final double amount;
+  final String type;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-
+  Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.all(5),
-      color: const Color.fromARGB(255, 225, 225, 225),
+      color: Theme.of(context).colorScheme.secondaryContainer.withAlpha(200),
       child: Padding(
         padding: EdgeInsets.all(5),
         child: Row(
           children: [
-
-            //Date and note
+            //Date-Time and note
             Expanded(
               flex: 3,
               child: Align(
@@ -27,43 +33,53 @@ class CustomerTransactionsHistory extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-
-                    //Date and Time
+                    //Date-Time
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.baseline,
                       textBaseline: TextBaseline.alphabetic,
                       children: [
-                        Text("${customer.created_date}"),SizedBox(width: 2,),
-                        Text("${customer.time}", style: TextStyle(fontSize: 8),)
+                        Text("$date"),
+                        SizedBox(width: 2),
+                        Text("$time", style: TextStyle(fontSize: 8)),
                       ],
                     ),
 
                     //Note
                     SizedBox(
                       width: 130,
-                      child: Text("Test note",
-                        style: TextStyle(fontSize: 8),
+                      child: Text("${note.trim()}", 
+                      style: TextStyle(fontSize: 8),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ],
                 ),
               ),
             ),
-        
+
             //You Got /*+++++DYNAMIC credit or debit++++++ */
             Expanded(
               flex: 1,
               child: Align(
                 alignment: Alignment.center,
-                child: Text("Rs. 500", style: TextStyle(color: Colors.green, fontSize: 13))),
+                child: Text(
+                  "Rs. 500",
+                  style: TextStyle(color: Colors.green, fontSize: 13),
+                ),
+              ),
             ),
-        
+
             //You Gave
             Expanded(
               flex: 1,
               child: Align(
                 alignment: Alignment.center,
-                child: Text("200", style: TextStyle(color: Colors.red, fontSize: 12))),
+                child: Text(
+                  "200",
+                  style: TextStyle(color: Colors.red, fontSize: 12),
+                ),
+              ),
             ),
           ],
         ),

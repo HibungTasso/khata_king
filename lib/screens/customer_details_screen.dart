@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:khata_king/models/customers.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:khata_king/models/transactions.dart';
+import 'package:khata_king/providers/transaction_provider.dart';
 import 'package:khata_king/widgets/customer_transactions_history.dart';
+import 'package:sqflite/sqlite_api.dart';
 
 class CustomerDetailsScreen extends ConsumerStatefulWidget {
   const CustomerDetailsScreen({super.key, required this.customer});
@@ -19,7 +22,6 @@ class _CustomerDetailsScreenState extends ConsumerState<CustomerDetailsScreen> {
   //Customer details
   late double _balance;
   late String _name;
-  late Customers currentCustomer;
 
   //Initialization before UI loads
   @override
@@ -29,11 +31,13 @@ class _CustomerDetailsScreenState extends ConsumerState<CustomerDetailsScreen> {
     //Initialize late variables here
     _balance = widget.customer.balance;
     _name = widget.customer.name;
-    currentCustomer = widget.customer;
   }
 
   @override
   Widget build(BuildContext context) {
+    //Get Transactions by customer id (returns AsyncValue<List<Transactions>>)
+    final transactions = ref.watch(getTransactionsByCustomerIdProvider(widget.customer.id!));
+
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -81,7 +85,7 @@ class _CustomerDetailsScreenState extends ConsumerState<CustomerDetailsScreen> {
                         Text(
                           //Amount
                           "Rs. ${_balance.toStringAsFixed(2)}",
-                          style: GoogleFonts.poppins(
+                          style: GoogleFonts.roboto(
                             textStyle: Theme.of(
                               context,
                             ).textTheme.titleLarge!.copyWith(fontSize: 18),
@@ -115,124 +119,162 @@ class _CustomerDetailsScreenState extends ConsumerState<CustomerDetailsScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(0),
               ),
-              child: Padding(
-                padding: EdgeInsets.all(10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    //Report
-                    InkWell(
+              child: Row(
+                children: [
+                  //Report
+                  Expanded(
+                    child: InkWell(
                       onTap: () {},
                       splashColor: const Color.fromARGB(255, 128, 139, 137),
                       child: Ink(
-                        width: 100,
-                        height: 80,
+                        height: 50,
                         padding: EdgeInsets.all(5),
-                        color: const Color.fromARGB(255, 190, 199, 203),
+                        color: Theme.of(context).colorScheme.primary,
 
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.analytics, size: 40),
-                            SizedBox(height: 10),
+                            Icon(
+                              Icons.analytics,
+                              color: Colors.white,
+                              size: 20,
+                            ),
                             Text(
                               "Reports",
                               style: GoogleFonts.poppins(
-                                textStyle: Theme.of(
-                                  context,
-                                ).textTheme.titleSmall,
+                                textStyle: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .copyWith(color: Colors.white),
                               ),
                             ),
                           ],
                         ),
                       ),
                     ),
-                    SizedBox(width: 40),
+                  ),
+                  //Vertical Divider
+                  SizedBox(
+                    height: 50,
+                    child: VerticalDivider(thickness: 1, width: 1),
+                  ),
 
-                    //Reminder
-                    InkWell(
+                  //Reminder
+                  Expanded(
+                    child: InkWell(
                       onTap: () {},
                       splashColor: const Color.fromARGB(255, 128, 139, 137),
                       child: Ink(
                         padding: EdgeInsets.all(5),
-                        width: 100,
-                        height: 80,
-                        color: const Color.fromARGB(255, 190, 199, 203),
+                        height: 50,
+                        color: Theme.of(context).colorScheme.primary,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             //Icon
-                            Icon(Icons.phone, size: 40), SizedBox(width: 10),
+                            Image.asset(
+                              "assets/images/whatsapp_logo.png",
+                              height: 21,
+                            ),
 
                             //Text
                             Text(
                               "Reminder",
                               style: GoogleFonts.poppins(
-                                textStyle: Theme.of(
-                                  context,
-                                ).textTheme.titleSmall,
+                                textStyle: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .copyWith(color: Colors.white),
                               ),
                             ),
                           ],
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-            SizedBox(height: 10),
 
             //Transaction History
-            Container(
-              width: double.infinity,
-              color: const Color.fromARGB(255, 212, 212, 212),
-              child: Column(
-                children: [
-                  //header
-                  Center(child: Text("Transaction History")),
-
-                  //Table Title
-                  Container(
-                    color: const Color.fromARGB(255, 218, 243, 31),
-                    padding: EdgeInsets.fromLTRB(25, 3, 0, 3),
-                    child: Row(
-                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          flex: 3,
-                          child: Text(
-                            "\t\t\t\t\t\t\tDate",
-                            style: Theme.of(
-                              context,
-                            ).textTheme.bodySmall!.copyWith(fontSize: 10),
-                          ),
+            Expanded(
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(0),
+                ),
+                child: Container(
+                  width: double.infinity,
+                  color: Theme.of(context).colorScheme.primary.withAlpha(10),
+                  child: Column(
+                    children: [
+                      //header
+                      Center(child: Text("Transaction History")),
+              
+                      //Table Title
+                      Container(
+                        color: Theme.of(context).colorScheme.secondaryContainer.withAlpha(200),
+                        padding: EdgeInsets.fromLTRB(25, 3, 0, 3),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex: 3,
+                              child: Text(
+                                "\t\t\t\t\t\t\tDate",
+                                style: Theme.of(
+                                  context,
+                                ).textTheme.bodySmall!.copyWith(fontSize: 10),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: Text(
+                                "You Got",
+                                style: Theme.of(
+                                  context,
+                                ).textTheme.bodySmall!.copyWith(fontSize: 10),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: Text(
+                                "You Gave",
+                                style: Theme.of(
+                                  context,
+                                ).textTheme.bodySmall!.copyWith(fontSize: 10),
+                              ),
+                            ),
+                          ],
                         ),
-                        Expanded(
-                          flex: 1,
-                          child: Text(
-                            "You Got",
-                            style: Theme.of(
-                              context,
-                            ).textTheme.bodySmall!.copyWith(fontSize: 10),
-                          ),
+                      ),
+              
+                      //List item of Transactions(manage AsyncValue<List<Transactions>>)
+                      Expanded(
+                        child: transactions.when(
+                          data: (list) {
+                            return SizedBox(
+                              height: double.infinity,
+                              child: ListView.builder(
+                                itemCount: list.length,
+                                itemBuilder: (ctx, index) {
+                                  return CustomerTransactionsHistory(
+                                    date: list[index].created_date, 
+                                    time: list[index].time, 
+                                    note: list[index].note, 
+                                    amount: list[index].amount, 
+                                    type: list[index].type);
+                                },
+                              ),
+                            );
+                          },
+                        
+                          //Loading and error
+                          loading: () => Center(child: CircularProgressIndicator(),),
+                          error: (error, stackTrace) => Center(child: Text('Error Occured in getTransactionsByCustomerIdProvider'),),
                         ),
-                        Expanded(
-                          flex: 1,
-                          child: Text(
-                            "You Gave",
-                            style: Theme.of(
-                              context,
-                            ).textTheme.bodySmall!.copyWith(fontSize: 10),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-
-                  //List item of Transactions /* +++ MAKE LIST ++++ */
-                  CustomerTransactionsHistory(customer: currentCustomer)
-                ],
+                ),
               ),
             ),
           ],

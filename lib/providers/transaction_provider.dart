@@ -13,6 +13,15 @@ final transactionListProvider = FutureProvider<List<Transactions>>((ref) async {
   return db.getTransactions();
 });
 
+//Get Transactions by transaction id
+final getTransactionsByCustomerIdProvider = FutureProvider.family<List<Transactions>, int>(
+  (ref, id) {
+    final db = ref.read(dbHelperProvider);
+
+    return db.getTransactionByCustomerId(id);
+  },
+);
+
 //Delete All transactions
 final deleteAllTransactionsProvider = FutureProvider<void>((ref) {
   final db = ref.read(dbHelperProvider);
@@ -28,8 +37,8 @@ final totalCreditsProvider = Provider<double>((ref) {
     data: (allTransactions) {
       double totalCredits = 0;
 
-      for(var t in allTransactions){
-        if(t.type == 'credit'){
+      for (var t in allTransactions) {
+        if (t.type == 'credit') {
           totalCredits += t.amount;
         }
       }
@@ -42,17 +51,16 @@ final totalCreditsProvider = Provider<double>((ref) {
   );
 });
 
-
 //total Debits
-final totalDebitsProvider = Provider<double>((ref){
+final totalDebitsProvider = Provider<double>((ref) {
   final allTransactions = ref.watch(transactionListProvider);
 
   return allTransactions.when(
     data: (allTransactions) {
       double totalDebits = 0;
 
-      for(var t in allTransactions){
-        if(t.type == 'debit'){
+      for (var t in allTransactions) {
+        if (t.type == 'debit') {
           totalDebits += t.amount;
         }
       }

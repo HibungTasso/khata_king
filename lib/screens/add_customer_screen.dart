@@ -67,7 +67,6 @@ class _AddCustomerState extends ConsumerState<AddCustomerScreen> {
         customerId: newCustomerId, //Foreign Key
         type: _type!.toLowerCase(),
         amount: _balance!,
-        note: "This is a test",
         created_date: createdDate,
         time: time,
         balance: _balance!,
@@ -104,6 +103,7 @@ class _AddCustomerState extends ConsumerState<AddCustomerScreen> {
               children: [
                 //Customer Name
                 TextFormField(
+                  textCapitalization: TextCapitalization.words,
                   onSaved: (newValue) {
                     _name = newValue;
                   },
