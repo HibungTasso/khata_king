@@ -24,51 +24,61 @@ class DashboardScreen extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 //Total Credits
-                Card(
-                  child: Padding(
-                    padding: EdgeInsets.all(15),
-                    child: Column(
-                      children: [
-                        Text(
-                          "Total Credits",
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                        SizedBox(height: 10),
-                        Text(
-                          "Rs. $totalCredits",
-                          style: Theme.of(context).textTheme.titleLarge!
-                              .copyWith(
-                                color: Colors.red,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 22,
-                              ),
-                        ),
-                      ],
+                Expanded(
+                  child: Card(
+                    child: Padding(
+                      padding: EdgeInsets.all(15),
+                      child: Column(
+                        children: [
+                          Text(
+                            "Total Credits",
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                          SizedBox(height: 10),
+                          FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              "Rs. $totalCredits",
+                              style: Theme.of(context).textTheme.titleLarge!
+                                  .copyWith(
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 22,
+                                  ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
                 SizedBox(width: 5),
-                //Today's Earning
-                Card(
-                  child: Padding(
-                    padding: EdgeInsets.all(15),
-                    child: Column(
-                      children: [
-                        Text(
-                          "Today's Earning",
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                        SizedBox(height: 10),
-                        Text(
-                          "Rs. $todayEarning",
-                          style: Theme.of(context).textTheme.titleLarge!
-                              .copyWith(
-                                color: Colors.green,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 22,
-                              ),
-                        ),
-                      ],
+                //Total Debits
+                Expanded(
+                  child: Card(
+                    child: Padding(
+                      padding: EdgeInsets.all(15),
+                      child: Column(
+                        children: [
+                          Text(
+                            "Total Debits",
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                          SizedBox(height: 10),
+                          FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              "Rs. $todayEarning",
+                              style: Theme.of(context).textTheme.titleLarge!
+                                  .copyWith(
+                                    color: Colors.green,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 22,
+                                  ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -174,6 +184,7 @@ class DashboardScreen extends ConsumerWidget {
                   //Refresh Customer Transaction lists
                   ref.invalidate(customerListProvider);
                   ref.invalidate(transactionListProvider);
+
 
                   ScaffoldMessenger.of(context).clearSnackBars();
                   ScaffoldMessenger.of(

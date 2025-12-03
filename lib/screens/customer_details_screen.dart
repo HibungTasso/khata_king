@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:khata_king/models/customers.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:khata_king/models/transactions.dart';
 import 'package:khata_king/providers/transaction_provider.dart';
-import 'package:khata_king/widgets/customer_transactions_history.dart';
-import 'package:sqflite/sqlite_api.dart';
+import 'package:khata_king/widgets/customer_detail_bottom_buttons.dart';
+import 'package:khata_king/widgets/customer_transactions_history_Tile.dart';
 
 class CustomerDetailsScreen extends ConsumerStatefulWidget {
   const CustomerDetailsScreen({super.key, required this.customer});
@@ -20,7 +19,6 @@ class CustomerDetailsScreen extends ConsumerStatefulWidget {
 
 class _CustomerDetailsScreenState extends ConsumerState<CustomerDetailsScreen> {
   //Customer details
-  late double _balance;
   late String _name;
 
   //Initialization before UI loads
@@ -29,14 +27,33 @@ class _CustomerDetailsScreenState extends ConsumerState<CustomerDetailsScreen> {
     super.initState();
 
     //Initialize late variables here
-    _balance = widget.customer.balance;
     _name = widget.customer.name;
   }
 
   @override
   Widget build(BuildContext context) {
     //Get Transactions by customer id (returns AsyncValue<List<Transactions>>)
-    final transactions = ref.watch(getTransactionsByCustomerIdProvider(widget.customer.id!));
+    final transactions = ref.watch(
+      getTransactionsByCustomerIdProvider(widget.customer.id!),
+    );
+
+    //Get current balance from database
+    final balanceAsync = ref.watch(
+      getCustomerBalanceByIdProvider(widget.customer.id!),
+    );
+
+    //check if balance is -ve (You will give)
+    final bool isBalanceNegetive = balanceAsync.when(
+                            data: (data) {
+                              if(data<0){
+                                return true;
+                              }else{
+                                return false;
+                              }
+                            },
+                            loading: () => false,
+                            error: (error, stackTrace) => false,
+                          );
 
     return Scaffold(
       appBar: AppBar(
@@ -51,6 +68,10 @@ class _CustomerDetailsScreenState extends ConsumerState<CustomerDetailsScreen> {
             Text(_name),
           ],
         ),
+      ),
+
+      bottomNavigationBar: CustomerDetailBottomButtons(
+        customer: widget.customer,
       ),
 
       body: Container(
@@ -72,7 +93,7 @@ class _CustomerDetailsScreenState extends ConsumerState<CustomerDetailsScreen> {
                         //Balance Text
                         Text(
                           "Balance",
-                          style: GoogleFonts.poppins(
+                          style: GoogleFonts.inter(
                             textStyle: Theme.of(context).textTheme.titleLarge!
                                 .copyWith(
                                   fontSize: 25,
@@ -81,15 +102,19 @@ class _CustomerDetailsScreenState extends ConsumerState<CustomerDetailsScreen> {
                           ),
                         ),
                         Spacer(), //space till the end
+
                         //Amount and Text (You will get/ You will give)
-                        Text(
-                          //Amount
-                          "Rs. ${_balance.toStringAsFixed(2)}",
-                          style: GoogleFonts.roboto(
-                            textStyle: Theme.of(
-                              context,
-                            ).textTheme.titleLarge!.copyWith(fontSize: 18),
+                        balanceAsync.when(
+                          data: (bal) => Text(
+                            "Rs. ${bal.toStringAsFixed(2)}",
+                            style: GoogleFonts.roboto(
+                              textStyle: Theme.of(
+                                context,
+                              ).textTheme.titleLarge!.copyWith(fontSize: 18),
+                            ),
                           ),
+                          loading: () => Text("Rs. 0.00"),
+                          error: (e, s) => Text("Rs. 0.00"),
                         ),
                       ],
                     ),
@@ -102,8 +127,10 @@ class _CustomerDetailsScreenState extends ConsumerState<CustomerDetailsScreen> {
                     Center(
                       /* ++++++ Later -> Dynamic Text ++++++ */
                       child: Text(
-                        "You will get",
-                        style: Theme.of(
+                        "${isBalanceNegetive? "You will give": "You will get"}",
+                        style: isBalanceNegetive?Theme.of(
+                          context,
+                        ).textTheme.titleSmall!.copyWith(color: Colors.red):Theme.of(
                           context,
                         ).textTheme.titleSmall!.copyWith(color: Colors.green),
                       ),
@@ -209,10 +236,12 @@ class _CustomerDetailsScreenState extends ConsumerState<CustomerDetailsScreen> {
                     children: [
                       //header
                       Center(child: Text("Transaction History")),
-              
+
                       //Table Title
                       Container(
-                        color: Theme.of(context).colorScheme.secondaryContainer.withAlpha(200),
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.secondaryContainer.withAlpha(200),
                         padding: EdgeInsets.fromLTRB(25, 3, 0, 3),
                         child: Row(
                           children: [
@@ -246,7 +275,7 @@ class _CustomerDetailsScreenState extends ConsumerState<CustomerDetailsScreen> {
                           ],
                         ),
                       ),
-              
+
                       //List item of Transactions(manage AsyncValue<List<Transactions>>)
                       Expanded(
                         child: transactions.when(
@@ -256,20 +285,27 @@ class _CustomerDetailsScreenState extends ConsumerState<CustomerDetailsScreen> {
                               child: ListView.builder(
                                 itemCount: list.length,
                                 itemBuilder: (ctx, index) {
-                                  return CustomerTransactionsHistory(
-                                    date: list[index].created_date, 
-                                    time: list[index].time, 
-                                    note: list[index].note, 
-                                    amount: list[index].amount, 
-                                    type: list[index].type);
+                                  return CustomerTransactionsHistoryTile(
+                                    date: list[index].created_date,
+                                    time: list[index].time,
+                                    note: list[index].note,
+                                    amount: list[index].amount,
+                                    type: list[index].type,
+                                    transaction: list[index],
+                                  );
                                 },
                               ),
                             );
                           },
-                        
+
                           //Loading and error
-                          loading: () => Center(child: CircularProgressIndicator(),),
-                          error: (error, stackTrace) => Center(child: Text('Error Occured in getTransactionsByCustomerIdProvider'),),
+                          loading: () =>
+                              Center(child: CircularProgressIndicator()),
+                          error: (error, stackTrace) => Center(
+                            child: Text(
+                              'Error Occured in getTransactionsByCustomerIdProvider',
+                            ),
+                          ),
                         ),
                       ),
                     ],

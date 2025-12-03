@@ -48,9 +48,7 @@ class _AddCustomerState extends ConsumerState<AddCustomerScreen> {
       phone: _phone!,
       created_date: createdDate,
       time: time,
-      balance:
-          _balance ??
-          0, //return the balance || if balance is null then return 0
+      balance: 0, //initially, balance be 0 because transaction will be initiate with input balance
     );
 
     // //Insert New Customer to Customer table

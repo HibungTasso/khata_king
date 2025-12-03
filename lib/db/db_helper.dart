@@ -160,7 +160,7 @@ class DbHelper {
   Future<Transactions?> getTransactionById(int id) async {
     final db = await database;
     final rows = await db.query(
-      'transaction',
+      'transactions',
       where: 'id = ?',
       whereArgs: [id],
     );
@@ -178,7 +178,8 @@ class DbHelper {
     final rows = await db.query(
       'transactions',
       where: 'customerId = ?',
-      whereArgs: [id]
+      whereArgs: [id],
+      orderBy: 'id DESC'
     );
 
     final result = rows.map((item){
@@ -379,4 +380,18 @@ class DbHelper {
       return updatedCount;
     });
   }
+
+  //Update Customer Balance
+  Future<int> updateCustomerBalance(int id, double newBalance) async {
+  final db = await database;
+
+  return await db.update(
+    'customers',
+    {'balance': newBalance},
+    where: 'id = ?',
+    whereArgs: [id],
+  );
+}
+
+
 }
