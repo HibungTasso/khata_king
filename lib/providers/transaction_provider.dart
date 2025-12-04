@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:khata_king/db/db_helper.dart';
-import 'package:khata_king/models/customers.dart';
 import 'package:khata_king/models/transactions.dart';
 import 'package:khata_king/providers/customer_providers.dart';
 
@@ -55,7 +54,10 @@ final totalCreditsProvider = Provider<double>((ref) {
                 xid < tid; // older than current transaction
           });
 
-          totalCredits -= t.amount;
+          // Only subtract if this debit is "returning" previous credit
+          if (customerHadCreditBefore) {
+            totalCredits -= t.amount;
+          }
         }
       }
 
@@ -90,8 +92,10 @@ final totalDebitsProvider = Provider<double>((ref) {
 });
 
 //Current Customer total balance
-final getCustomerBalanceByIdProvider = FutureProvider.family<double, int>(
-  (ref,id,) async {
+final getCustomerBalanceByIdProvider = FutureProvider.family<double, int>((
+  ref,
+  id,
+) async {
   final db = ref.read(dbHelperProvider);
 
   // get customer
@@ -103,8 +107,11 @@ final getCustomerBalanceByIdProvider = FutureProvider.family<double, int>(
   return customer.balance; // or customer.totalAmount
 });
 
-//Delete Transaction by transaction id 
-final deleteTransactionByIdProvider = FutureProvider.family<int, int>((ref, transactionId){
+//Delete Transaction by transaction id
+final deleteTransactionByIdProvider = FutureProvider.family<int, int>((
+  ref,
+  transactionId,
+) {
   final db = ref.read(dbHelperProvider);
 
   final a = db.deleteTransactionById(transactionId);
@@ -116,10 +123,4 @@ final deleteTransactionByIdProvider = FutureProvider.family<int, int>((ref, tran
   ref.invalidate(customerListProvider);
 
   return a;
-
 });
-
-
-
-
-

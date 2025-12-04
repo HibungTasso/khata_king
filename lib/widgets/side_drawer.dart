@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:khata_king/providers/navigation_provider.dart';
 import 'package:khata_king/providers/theme_provider.dart';
 import 'package:khata_king/screens/all_transaction_history_screen.dart';
+import 'package:khata_king/screens/analytics_screen.dart';
 import 'package:khata_king/screens/payment_reminder_screen.dart';
 
 class SideDrawer extends ConsumerStatefulWidget {
@@ -138,7 +139,9 @@ class _SideDrawerState extends ConsumerState<SideDrawer> {
                   Icons.analytics,
                   color: Theme.of(context).colorScheme.onPrimaryContainer,
                 ),
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>AnalyticsScreen()));
+                },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(0),
                 ),

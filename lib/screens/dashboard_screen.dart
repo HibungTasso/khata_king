@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:khata_king/providers/customer_providers.dart';
 import 'package:khata_king/providers/transaction_provider.dart';
 import 'package:khata_king/screens/all_transaction_history_screen.dart';
+import 'package:khata_king/screens/analytics_screen.dart';
 
 class DashboardScreen extends ConsumerWidget {
   const DashboardScreen({super.key});
@@ -133,7 +134,9 @@ class DashboardScreen extends ConsumerWidget {
                 clipBehavior: Clip.hardEdge,
 
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>AnalyticsScreen()));
+                  },
                   child: Center(
                     child: Row(
                       mainAxisSize: MainAxisSize.min,

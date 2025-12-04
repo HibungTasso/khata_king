@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:khata_king/db/db_helper.dart';
 import 'package:khata_king/models/customers.dart';
-import 'package:khata_king/models/transactions.dart';
 
 
 //dbHelper Provider
