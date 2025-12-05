@@ -40,9 +40,9 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      _toggleButton("7 Days", 7),
+                      _toggleButton("Weekly", 7),
                       const SizedBox(width: 12),
-                      _toggleButton("30 Days", 30),
+                      _toggleButton("Monthly", 30),
                     ],
                   ),
 

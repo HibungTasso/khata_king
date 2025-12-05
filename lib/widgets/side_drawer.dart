@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:khata_king/providers/auth_provider.dart';
 import 'package:khata_king/providers/navigation_provider.dart';
 import 'package:khata_king/providers/theme_provider.dart';
 import 'package:khata_king/screens/all_transaction_history_screen.dart';
@@ -185,8 +186,31 @@ class _SideDrawerState extends ConsumerState<SideDrawer> {
               ),
               SizedBox(height: 10),
 
-              //Footer - "developed by Hibung Tasso"
+              ListTile(
+                title: Text("Logout", style: Theme.of(context).textTheme.titleSmall),
+                leading: Icon(
+                  Icons.logout,
+                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                ),
+                onTap: () {
+                  ref.read(logoutProvider)();
+                },
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(0),
+                ),
+                tileColor: Theme.of(
+                  context,
+                ).colorScheme.secondaryContainer.withAlpha(100),
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 5,
+                ),
+              ),
+              SizedBox(height: 5),
+
               Spacer(),
+              //Footer - "developed by Hibung Tasso"
+              //Copyright
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 30),
                 child: Center(

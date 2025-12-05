@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:khata_king/auth_wrapper.dart';
 import 'package:khata_king/providers/theme_provider.dart';
 import 'package:khata_king/screens/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -52,7 +53,7 @@ class MyApp extends ConsumerWidget {
       theme: lightTheme,
       darkTheme: darkTheme,
       themeMode: themeMode,
-      home: SplashScreen(),
+      home: AuthWrapper(),
     );
   }
 }
