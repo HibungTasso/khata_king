@@ -24,7 +24,7 @@ class _AddCustomerState extends ConsumerState<AddCustomerScreen> {
   double? _balance;
 
   //Controllers
-  final _balanceController = TextEditingController(text: "0");
+  final _balanceController = TextEditingController();
 
   //Form Key
   final _formKey = GlobalKey<FormState>();

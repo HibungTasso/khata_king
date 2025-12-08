@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:khata_king/providers/auth_provider.dart';
+import 'package:khata_king/providers/firestore_provider.dart';
 import 'package:khata_king/providers/navigation_provider.dart';
 import 'package:khata_king/providers/theme_provider.dart';
 import 'package:khata_king/screens/all_transaction_history_screen.dart';
@@ -22,6 +23,8 @@ class _SideDrawerState extends ConsumerState<SideDrawer> {
   Widget build(BuildContext context) {
     //Get themeMode from ThemeProvider
     bool isDarkMode = ref.watch(themeProvider) == ThemeMode.dark;
+
+    final username = ref.watch(getUserNameFromFirestoreProvider).value;
 
     final width = MediaQuery.of(context).size.width * 0.8;
 
@@ -51,8 +54,8 @@ class _SideDrawerState extends ConsumerState<SideDrawer> {
                       fit: BoxFit.cover,
                     ),
                     const SizedBox(height: 10),
-                    const Text(
-                      "Hello [USER]",
+                    Text(
+                      "Hello $username!",
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
@@ -186,6 +189,7 @@ class _SideDrawerState extends ConsumerState<SideDrawer> {
               ),
               SizedBox(height: 10),
 
+              //Logout
               ListTile(
                 title: Text("Logout", style: Theme.of(context).textTheme.titleSmall),
                 leading: Icon(

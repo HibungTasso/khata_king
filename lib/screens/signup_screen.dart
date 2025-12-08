@@ -13,6 +13,7 @@ class SignupScreen extends ConsumerStatefulWidget {
 class _SignupScreenState extends ConsumerState<SignupScreen> {
   final _email = TextEditingController();
   final _password = TextEditingController();
+  final _name = TextEditingController();
   bool loading = false;
 
   @override
@@ -25,7 +26,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
   Future<void> signUp() async {
     setState(() => loading = true);
     try {
-      await ref.read(signUpProvider)(_email.text.trim(), _password.text.trim());
+      await ref.read(signUpProvider)(_name.text.trim(), _email.text.trim(), _password.text.trim());
 
       Navigator.pop(context);
       ScaffoldMessenger.of(context).clearSnackBars();
@@ -79,12 +80,33 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
 
               const SizedBox(height: 40),
 
+              //Name
+              Text(
+                "Name",
+                style: GoogleFonts.inter(fontWeight: FontWeight.w600),
+              ),
+              TextField(
+                controller: _name,
+                textCapitalization: TextCapitalization.words,
+                decoration: InputDecoration(
+                  hintText: "Full Name or Shop Name",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+
+              //Email
               Text(
                 "Email",
                 style: GoogleFonts.inter(fontWeight: FontWeight.w600),
               ),
               TextField(
                 controller: _email,
+                keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   hintText: "Enter your email",
                   border: OutlineInputBorder(
@@ -95,6 +117,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
 
               const SizedBox(height: 20),
 
+              //Password
               Text(
                 "Password",
                 style: GoogleFonts.inter(fontWeight: FontWeight.w600),
